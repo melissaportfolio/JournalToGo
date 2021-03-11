@@ -14,3 +14,6 @@ CREATE TABLE journal (
         FOREIGN KEY (customer_id)
             REFERENCES customer(customer_id)
 );
+
+INSERT INTO customer (full_name, email, password)
+VALUES('Admin User', 'admin@journaltogo.com', 'Admin1234!');
