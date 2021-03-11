@@ -17,3 +17,6 @@ CREATE TABLE journal (
 
 INSERT INTO customer (full_name, email, password)
 VALUES('Admin User', 'admin@journaltogo.com', 'Admin1234!');
+
+INSERT INTO journal (journal_entry, journal_entry_date, customer_id)
+VALUES('Today I bought shoes', '2021-03-10', 1);

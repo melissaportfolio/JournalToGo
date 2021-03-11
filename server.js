@@ -7,13 +7,30 @@ app.use(express.static("public"));
 app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", "ejs");
 
-
+//Index page
 app.get("/", function(req, res) {
   console.log("Received request for root /");
+  res.render('pages/index');
 
   res.write("This is the root");
   res.end();
 });
+
+// about page
+app.get('/about', function(req, res) {
+    res.render('pages/about');
+    res.write("This is the about page");
+    res.end();
+});
+
+// register page
+app.get('/register', function(req, res) {
+    res.render('pages/about');
+    res.write("This is the registration page");
+    res.end();
+});
+
+
 
 
 
