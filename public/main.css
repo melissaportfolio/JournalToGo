@@ -28,7 +28,22 @@ h1 {
     padding: 20px;
 }
 
+h2 {
+    font-family: 'Akaya Telivigala', cursive;
+    color: white;
+    text-align: center;
+    font-size: 40px;
+    padding: 20px;
+}
+
 button {
+    text-align: center;
+    font-family: 'Alice', serif;
+    background-color: #1577b4;
+    color: white;
+}
+
+#button {
     text-align: center;
     font-family: 'Alice', serif;
     background-color: #1577b4;
@@ -48,4 +63,16 @@ footer {
     padding: 20px;
     color: white;
     font-size: 20px;
+}
+
+a {
+    text-align: center;
+    font-family: 'Alice', serif;
+    padding: 20px;
+    color: white;
+    
+}
+
+a:hover {
+    color:#1577b4;
 }
