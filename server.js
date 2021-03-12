@@ -1,62 +1,60 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-
-
-//app listener
-app.set("port", (process.env.PORT || 3000));
-
-app.listen(app.get("port"), function() {
-console.log("Now listening on port: ", app.get("port"));
+require('dotenv').config();
+const {
+    Pool
+} = require('pg');
+const connectionString = process.env.DATABASE_URL;
+const pool = new Pool({
+    connectionString: connectionString,
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
 
-
-app.use(express.static("JournalToGo"));
-
+app.use(express.static(path.join(__dirname, 'public')));
 app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", "ejs");
 
-//Index page
-app.get("/", function(req, res) {
-  console.log("Received request for root /");
-//   res.render('pages/index');
 
-  res.write("This is the root");
-  res.end();
-});
 
-// about page
-// app.get('/about', function(req, res) {
-//     res.render('pages/about');
-//     res.write("This is the about page");
-//     res.end();
-// });
+//Root page
+app.get("/", function (req, res) {
+    console.log("Received request for root /");
+    //   res.render('pages/index');
 
-// register page
-app.get('/register', function(req, res) {
-    // const request = req.query;
-    res.render('pages/register');
-    res.write("This is the registration page");
+    res.write("This is the root");
     res.end();
 });
 
+//index page
+app.get('/index', function (req, res) {
+    // const request = req.query;
+    res.render('pages/index');
 
-
-
-
-
-require('dotenv').config();
-const { Pool } = require('pg');
-
-
-const connectionString = process.env.DATABASE_URL;
-
-const pool = new Pool({connectionString: connectionString,
-ssl: {
-    rejectUnauthorized: false
-}
 });
+
+
+
+
+
+
+
+// register page
+app.get('/register', function (req, res) {
+    // const request = req.query;
+    res.render('pages/register');
+   
+});
+
+
+
+
+
+
+
 
 
 
@@ -70,42 +68,53 @@ ssl: {
 app.get("/getCustomers", getCustomers);
 
 function getCustomers(req, res) {
-console.log("Gettting data");
-var id = req.query.id;
-getCustomersFromDataLayer(id, function(error, result) {
-console.log("Back From the getCustomersFromDataLayer:", result);
-if(error || result == null || result.length !=1) {
-res.status(500).json({success:false, data: error});
+    console.log("Getting data");
+    // var id = req.query.id;
+    getCustomersFromDataLayer(function (error, result) {
+        console.log("Back From the getCustomersFromDataLayer:", result);
+        if (error || result == null) {
+            res.status(500).json({
+                success: false,
+                data: error
+            });
+        } 
+        else {
+            // res.json(result);
+            res.status(200).json(result);
+        }
+    });
 }
-else
-{
-res.json(result[0]);
+
+function getCustomersFromDataLayer(callback) {
+    console.log("getCustomersFromDataLayer called with id");
+
+    var sql = "SELECT * FROM customer";
+    // var params = [id];
+
+    pool.query(sql, function (err, result) {
+        if (err) {
+            console.log("error in database connection");
+            console.log(err);
+            callback(err, null);
+        }
+
+        console.log("Found DB result:" + JSON.stringify(result.rows));
+
+        callback(null, result.rows);
+
+    });
 }
+
+
+
+
+
+//app listener
+app.set("port", (process.env.PORT || 3000));
+
+app.listen(app.get("port"), function () {
+    console.log("Now listening on port: ", app.get("port"));
 });
-}
-
-function getCustomersFromDataLayer (id, callback) {
-console.log("getCustomersFromDataLayer called with id", id);
-
-var sql = "SELECT * FROM customer";
-var params = [id];
-
-pool.query(sql, params, function(err, result) {
-if (err) {
-console.log("error in database connection");
-console.log(err);
-callback(err, null);
-}
-
-console.log("Found DB result:" + JSON.stringify(result.rows));
-
-callback(null, result.rows);
-
-});
-}
-
-
-
 
 
 // // var sql = "SELECT * FROM customer";
