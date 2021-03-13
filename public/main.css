@@ -10,6 +10,9 @@ font-family: 'Oxygen', sans-serif;
 #67BAED
 #6EC2F5
 #1577B4 dark blue
+#FB3640 salmon
+#FBB13C gold
+#35CE8D green
 */
 
 body, html {
@@ -26,6 +29,18 @@ h1 {
     text-align: center;
     font-size: 60px;
     padding: 20px;
+    animation-name: h1;
+    animation-duration: 10s;
+}
+
+@keyframes h1 {
+    from {
+    color: #1577b4;;
+    }
+
+    to {
+    color: white;
+    }
 }
 
 h2 {
@@ -75,4 +90,39 @@ a {
 
 a:hover {
     color:#1577b4;
+}
+
+/* .journal-display {
+    
+    font-family: 'Alice', serif;
+    padding: 20px;
+    color: white;
+} */
+
+table {
+    width: 90%;
+    border: 1px solid white;
+    padding: 20px;
+}
+
+th {
+    background-color: #1577b4;
+    color: white;
+    padding: 10px;
+}
+
+td {
+    background-color:#6EC2F5;
+    color: #00304e;
+    padding: 10px;
+    border-bottom: solid white 1px;
+}
+
+#outputJournal {
+    padding: 20px;
+}
+
+#buttonJournal {
+    margin-left: 20px;
+    padding: 10px;
 }

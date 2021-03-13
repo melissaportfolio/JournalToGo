@@ -49,6 +49,13 @@ app.get('/register', function (req, res) {
    
 });
 
+// entries page
+app.get('/entries', function (req, res) {
+    // const request = req.query;
+    res.render('pages/entries');
+   
+});
+
 
 
 
@@ -102,6 +109,14 @@ function getCustomersFromDataLayer(callback) {
 
 
 
+
+
+
+
+
+
+
+
 //ADD CUSTOMER
 app.post("/addCustomer", addCustomer);
 function addCustomer(req, res) {
@@ -136,6 +151,56 @@ function addCustomerFromDataLayer(callback) {
         callback(null, result.rows);
     });
 }
+
+
+
+
+
+
+
+//GET JOURNAL ENTRIES
+//DATABASE CALL from app.get
+app.get("/getJournal", getJournal);
+function getJournal(req, res) {
+    console.log("Getting data");
+    // var id = req.query.id;
+    getJournalFromDataLayer(function (error, result) {
+        console.log("Back From the getJournalFromDataLayer:", result);
+        if (error || result == null) {
+            res.status(500).json({
+                success: false,
+                data: error
+            });
+        } 
+        else {
+            // res.json(result);
+            res.status(200).json(result);
+        }
+    });
+}
+
+function getJournalFromDataLayer(callback) {
+    console.log("getJournalFromDataLayer called with id");
+    var sql = "SELECT * FROM journal";
+    // var params = [id];
+    pool.query(sql, function (err, result) {
+        if (err) {
+            console.log("error in database connection");
+            console.log(err);
+            callback(err, null);
+        }
+        console.log("Found DB result:" + JSON.stringify(result.rows));
+        callback(null, result.rows);
+    });
+}
+
+
+
+
+
+
+
+
 
 
 

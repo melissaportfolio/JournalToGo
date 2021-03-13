@@ -37,6 +37,60 @@ function generateTable()
       
     }//cartPopup on click
 
+
+
+
+
+//Journal Display
+function generateJournal()
+    {
+    //   console.log('checkout run');
+      
+      //official jquery ajax function
+      $.ajax({
+        url: '/getJournal',
+        type: 'GET',
+        dataType: 'json', //will parse json into javascript object
+
+        //callback called when successful
+        success: (data) => {
+          console.log('ajax success!', data);
+
+          //declare output as empty string
+          outputJournal = '';
+          outputJournal += "<table class='journal-display'>";
+          outputJournal += "<tr>";
+          outputJournal += "<th>Journal ID</th>";
+          outputJournal += "<th>Journal Entry</th>";
+          outputJournal += "<th>Journal Entry Date</th>";
+          outputJournal += "<th>Customer ID</th>";
+          outputJournal += "</tr>";
+          //jquery for each loop
+          $.each(data, function (index, value) {
+
+            outputJournal += "<tr><td>"+ this.journal_id +"</td>";
+            outputJournal += "<td>"+ this.journal_entry + "</td>";
+            outputJournal += "<td>" + this.journal_entry_date + "</td>";
+            outputJournal += "<td>" + this.customer_id + "</td></tr>";
+            
+          });// END LOOP
+          outputJournal += "</table>";
+          $('#outputJournal').html(outputJournal);
+   
+          //select status id element display in html
+        //   $('#results').html(result);
+        }//sucess data call
+      });//ajax function call
+      
+    }//cartPopup on click
+
+
+
+
+
+
+
+
     function addCustomer() 
     {
         // console.log('checkout run');
@@ -50,13 +104,25 @@ function generateTable()
           //callback called when successful
           success: (data) => {
             console.log('ajax success!', data);
+
   
-           
-          },//sucess data call
-          "addCustomer":({
-            data: 'full_name',
-            data: 'email',
-            password: 'password'
-          })
+            //declare output as empty string
+            input = '';
+  
+            //jquery for each loop
+            $.each(data, function (index, value) {
+          
+
+              input += this.full_name;
+              input += this.email;
+              output += this.password;
+            });// END LOOP
+  
+            $('#input').html(input);
+     
+            //select status id element display in html
+          //   $('#results').html(result);
+          }//sucess data call
         });//ajax function call
-    }
+        
+      }//cartPopup on click
