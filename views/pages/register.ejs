@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Journal To Go</title>
     <%- include ("../partials/header.ejs") %>
-    <link href="/../"
+    <link href="/../">
     <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Akaya+Telivigala&family=Alice&family=Gloria+Hallelujah&family=Kavivanar&family=Luckiest+Guy&family=Merienda&family=Oxygen&display=swap" rel="stylesheet">
   
@@ -21,13 +21,15 @@
    <h2>Register</h2>
 
 
-    <form>
-        <label></label><br>
-        <input><br>
-        <label></label><br>
-        <input><br>
-        <button type="button">Register</button>
-    </form>
+    <form action="/addCustomer" method="POST">
+        <label for="full_name">Full Name</label><br>
+        <input type="text" name="full_name"><br>
+        <label for="email">Email</label><br>
+        <input type="text" name="email"><br>
+        <label for="password">Password</label><br>
+        <input type="text" name="password"><br>
+        <button onclick="addCustomer()" type="button">Register</button>
+    </form><br>
     <a href="index.ejs">Need to login?</a>
 
 </div>

@@ -3,7 +3,7 @@
 
 function generateTable()
     {
-      console.log('checkout run');
+    //   console.log('checkout run');
       
       //official jquery ajax function
       $.ajax({
@@ -34,5 +34,29 @@ function generateTable()
         //   $('#results').html(result);
         }//sucess data call
       });//ajax function call
-      //CART CLICK AJAX END
+      
     }//cartPopup on click
+
+    function addCustomer() 
+    {
+        // console.log('checkout run');
+      
+        //official jquery ajax function
+        $.ajax({
+          url: '/addCustomer',
+          type: 'POST',
+          dataType: 'json', //will parse json into javascript object
+  
+          //callback called when successful
+          success: (data) => {
+            console.log('ajax success!', data);
+  
+           
+          },//sucess data call
+          "addCustomer":({
+            data: 'full_name',
+            data: 'email',
+            password: 'password'
+          })
+        });//ajax function call
+    }

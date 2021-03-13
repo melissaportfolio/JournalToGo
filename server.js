@@ -63,10 +63,9 @@ app.get('/register', function (req, res) {
 
 
 
-
+//GET CUSTOMER
 //DATABASE CALL from app.get
 app.get("/getCustomers", getCustomers);
-
 function getCustomers(req, res) {
     console.log("Getting data");
     // var id = req.query.id;
@@ -87,23 +86,58 @@ function getCustomers(req, res) {
 
 function getCustomersFromDataLayer(callback) {
     console.log("getCustomersFromDataLayer called with id");
-
     var sql = "SELECT * FROM customer";
     // var params = [id];
-
     pool.query(sql, function (err, result) {
         if (err) {
             console.log("error in database connection");
             console.log(err);
             callback(err, null);
         }
-
         console.log("Found DB result:" + JSON.stringify(result.rows));
-
         callback(null, result.rows);
-
     });
 }
+
+
+
+
+//ADD CUSTOMER
+app.post("/addCustomer", addCustomer);
+function addCustomer(req, res) {
+    console.log("Posting data");
+    // var id = req.query.id;
+    addCustomerFromDataLayer(function (error, result) {
+        console.log("Back From the addCustomerFromDataLayer:", result);
+        if (error || result == null) {
+            res.status(500).json({
+                success: false,
+                data: error
+            });
+        } 
+        else {
+            // res.json(result);
+            res.status(200).json(result);
+        }
+    });
+}
+
+function addCustomerFromDataLayer(callback) {
+    console.log("addCustomerFromDataLayer called with id");
+    var sql = "INSERT INTO customer (full_name, email, password) VALUES($.full_name, $.email, $.password);";
+    // var params = [id];
+    pool.query(sql, function (err, result) {
+        if (err) {
+            console.log("error in database connection");
+            console.log(err);
+            callback(err, null);
+        }
+        console.log("Found DB result:" + JSON.stringify(result.rows));
+        callback(null, result.rows);
+    });
+}
+
+
 
 
 
