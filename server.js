@@ -56,6 +56,13 @@ app.get('/entries', function (req, res) {
    
 });
 
+// new entry page
+app.get('/addentry', function (req, res) {
+    // const request = req.query;
+    res.render('pages/addentry');
+   
+});
+
 
 
 

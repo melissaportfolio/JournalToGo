@@ -79,8 +79,15 @@ button:hover {
     color: #35CE8D;
 }
 
-form {
+#form {
     text-align: center;
+    font-family: 'Alice', serif;
+    padding: 20px;
+    background-color: #6EC2F5;
+}
+
+#journal-form {
+    /* text-align: center; */
     font-family: 'Alice', serif;
     padding: 20px;
     background-color: #6EC2F5;
