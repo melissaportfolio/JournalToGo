@@ -95,8 +95,13 @@ function generateJournal()
     {
         // console.log('checkout run');
       
+        data = {};
+        const full_name = $('#input').attr('full_name');
+        const email = $('#input').attr('email');
+        const password = $('#input').attr('password');
         //official jquery ajax function
-        $.ajax({
+        $.ajax(
+        {
           url: '/addCustomer',
           type: 'POST',
           dataType: 'json', //will parse json into javascript object
@@ -115,7 +120,7 @@ function generateJournal()
 
               input += this.full_name;
               input += this.email;
-              output += this.password;
+              input += this.password;
             });// END LOOP
   
             $('#input').html(input);

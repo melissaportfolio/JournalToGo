@@ -122,9 +122,9 @@ app.post("/addCustomer", addCustomer);
 function addCustomer(req, res) {
     console.log("Posting data");
     // var id = req.query.id;
-    addCustomerFromDataLayer(function (error, result) {
-        console.log("Back From the addCustomerFromDataLayer:", result);
-        if (error || result == null) {
+    addCustomerFromDataLayer(function (error, input) {
+        console.log("Back From the addCustomerFromDataLayer:", input);
+        if (error || input == null) {
             res.status(500).json({
                 success: false,
                 data: error
@@ -132,7 +132,7 @@ function addCustomer(req, res) {
         } 
         else {
             // res.json(result);
-            res.status(200).json(result);
+            res.status(200).json(input);
         }
     });
 }
@@ -141,14 +141,14 @@ function addCustomerFromDataLayer(callback) {
     console.log("addCustomerFromDataLayer called with id");
     var sql = "INSERT INTO customer (full_name, email, password) VALUES($.full_name, $.email, $.password);";
     // var params = [id];
-    pool.query(sql, function (err, result) {
+    pool.query(sql, function (err, input) {
         if (err) {
             console.log("error in database connection");
             console.log(err);
             callback(err, null);
         }
-        console.log("Found DB result:" + JSON.stringify(result.rows));
-        callback(null, result.rows);
+        console.log("Found DB result:" + JSON.stringify(input.rows));
+        callback(null, input.rows);
     });
 }
 

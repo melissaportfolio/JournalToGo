@@ -51,6 +51,10 @@ h2 {
     padding: 20px;
 }
 
+
+hr {
+    border: 2px solid white;
+  }
 button {
     text-align: center;
     font-family: 'Alice', serif;
@@ -109,6 +113,7 @@ th {
     background-color: #1577b4;
     color: white;
     padding: 10px;
+    font-family: 'Alice', serif;
 }
 
 td {
@@ -116,13 +121,16 @@ td {
     color: #00304e;
     padding: 10px;
     border-bottom: solid white 1px;
+    font-family: 'Alice', serif;
 }
 
 #outputJournal {
     padding: 20px;
+    font-family: 'Alice', serif;
 }
 
 #buttonJournal {
     margin-left: 20px;
     padding: 10px;
+    
 }
