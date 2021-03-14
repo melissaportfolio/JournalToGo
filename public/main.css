@@ -10,6 +10,7 @@ font-family: 'Oxygen', sans-serif;
 #67BAED
 #6EC2F5
 #1577B4 dark blue
+#00304e darker blue
 #FB3640 salmon
 #FBB13C gold
 #35CE8D green
@@ -60,6 +61,11 @@ button {
     font-family: 'Alice', serif;
     background-color: #1577b4;
     color: white;
+    border-radius: 5px 5px 5px 5px;
+    padding: 10px;
+}
+button:hover {
+    color: #35CE8D;
 }
 
 #button {
@@ -67,6 +73,10 @@ button {
     font-family: 'Alice', serif;
     background-color: #1577b4;
     color: white;
+    padding: 10px;
+}
+#button:hover {
+    color: #35CE8D;
 }
 
 form {
@@ -93,7 +103,7 @@ a {
 }
 
 a:hover {
-    color:#1577b4;
+    color:#35CE8D;
 }
 
 /* .journal-display {
@@ -102,6 +112,11 @@ a:hover {
     padding: 20px;
     color: white;
 } */
+
+label {
+    color: #00304e;
+    font-family: 'Alice', serif;
+}
 
 table {
     width: 90%;
