@@ -21,13 +21,13 @@
    <h2>Register</h2>
 
 
-    <form id="form" action="/addCustomer" method="POST">
+    <form id="form">
         <label for="full_name">Full Name</label><br>
-        <input type="text" name="full_name"><br>
+        <input id="full_name" type="text" name="full_name"><br>
         <label for="email">Email</label><br>
-        <input type="text" name="email"><br>
+        <input id="email" type="text" name="email"><br>
         <label for="password">Password</label><br>
-        <input type="text" name="password"><br><br>
+        <input id="password" type="text" name="password"><br><br>
         <button onclick="addCustomer()" id="input" type="button">Register</button>
     </form><br>
     <a href="/index">Need to login?</a>

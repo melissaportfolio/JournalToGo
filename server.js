@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const session = require('client-sessions');
+
 require('dotenv').config();
 const {
     Pool
@@ -15,6 +17,13 @@ const pool = new Pool({
 
 
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+    cookieName: 'session',
+    secret: 'random_string_goes_here',
+    duration: 30 * 60 * 1000,
+    activeDuration: 5 * 60 * 1000,
+  }));
+app.use(express.urlencoded({extended:true}))//support url encoded bodies
 app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", "ejs");
 
@@ -35,11 +44,6 @@ app.get('/index', function (req, res) {
     res.render('pages/index');
 
 });
-
-
-
-
-
 
 
 // register page
@@ -129,7 +133,13 @@ app.post("/addCustomer", addCustomer);
 function addCustomer(req, res) {
     console.log("Posting data");
     // var id = req.query.id;
-    addCustomerFromDataLayer(function (error, input) {
+    //body is for post, query is for get
+    
+    const full_name = req.body.full_name;
+    const email = req.body.email;
+    const password = req.body.password;
+    const params = [full_name, email, password];
+    addCustomerFromDataLayer(params, function (error, input) {
         console.log("Back From the addCustomerFromDataLayer:", input);
         if (error || input == null) {
             res.status(500).json({
@@ -144,18 +154,106 @@ function addCustomer(req, res) {
     });
 }
 
-function addCustomerFromDataLayer(callback) {
+function addCustomerFromDataLayer(params, callback) {
     console.log("addCustomerFromDataLayer called with id");
-    var sql = "INSERT INTO customer (full_name, email, password) VALUES($.full_name, $.email, $.password);";
+    var sql = "INSERT INTO customer (full_name, email, password) VALUES($1::text, $2::text, $3::text)";
     // var params = [id];
-    pool.query(sql, function (err, input) {
+    pool.query(sql, params, function (err, input) {
         if (err) {
             console.log("error in database connection");
             console.log(err);
             callback(err, null);
         }
-        console.log("Found DB result:" + JSON.stringify(input.rows));
-        callback(null, input.rows);
+        console.log("Found DB result:" + JSON.stringify(input));
+        callback(null, input);
+    });
+}
+
+
+
+
+
+
+
+
+
+
+//ADD JOURNAL ENTRY
+app.post("/addEntry", addEntry);
+function addEntry(req, res) {
+    console.log("Posting data");
+    // var id = req.query.id;
+    //body is for post, query is for get
+    
+    const date = req.body.date;
+    const entry_text = req.body.entry_text;
+   
+    const params = [date, entry_text];
+    addEntryFromDataLayer(params, function (error, addEntry) {
+        console.log("Back From the addEntryFromDataLayer:", addEntry);
+        if (error || addEntry == null) {
+            res.status(500).json({
+                success: false,
+                data: error
+            });
+        } 
+        else {
+            // res.json(result);
+            res.status(200).json(addEntry);
+        }
+    });
+}
+
+function addEntryFromDataLayer(params, callback) {
+    console.log("addEntryFromDataLayer called with id");
+    var sql = "INSERT INTO journal (date, entry_text) VALUES($1::date, $2::text)";
+    // var params = [id];
+    pool.query(sql, params, function (err, addEntry) {
+        if (err) {
+            console.log("error in database connection");
+            console.log(err);
+            callback(err, null);
+        }
+        console.log("Found DB result:" + JSON.stringify(addEntry));
+        callback(null, addEntry);
+    });
+}
+
+
+
+
+//Login and display entries
+app.get("/login", login);
+function login(req, res) {
+    console.log("Getting data");
+    // var id = req.query.id;
+    loginFromDataLayer(function (error, result) {
+        console.log("Back From the loginFromDataLayer:", result);
+        if (error || result == null) {
+            res.status(500).json({
+                success: false,
+                data: error
+            });
+        } 
+        else {
+            // res.json(result);
+            res.status(200).json(result);
+        }
+    });
+}
+
+function loginFromDataLayer(callback) {
+    console.log("loginFromDataLayer called with id");
+    var sql = "SELECT journal_entry j FROM journal j JOIN customer c ON j.customer_id = c.customer_id WHERE j.customer_id = c.customer_id";
+    // var params = [id];
+    pool.query(sql, function (err, result) {
+        if (err) {
+            console.log("error in database connection");
+            console.log(err);
+            callback(err, null);
+        }
+        console.log("Found DB result:" + JSON.stringify(result.rows));
+        callback(null, result.rows);
     });
 }
 

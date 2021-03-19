@@ -1,5 +1,7 @@
 //AJAX and client side JS
 
+//login function needs fixed
+
 
 function generateTable()
     {
@@ -96,38 +98,105 @@ function generateJournal()
         // console.log('checkout run');
       
         data = {};
-        const full_name = $('#input').attr('full_name');
-        const email = $('#input').attr('email');
-        const password = $('#input').attr('password');
-        //official jquery ajax function
+        const key1 = $('#full_name').attr('name');
+        const key2 = $('#email').attr('name');
+        const key3 = $('#password').attr('name');
+
+        const value1 = $('#full_name').val();
+        const value2 = $('#email').val();
+        const value3 = $('#password').val();
+
+
+        data[key1] = value1;
+        data[key2] = value2;
+        data[key3] = value3;
+
+        //jquery ajax post function
         $.ajax(
         {
           url: '/addCustomer',
           type: 'POST',
           dataType: 'json', //will parse json into javascript object
+          data: data,
   
           //callback called when successful
           success: (data) => {
-            console.log('ajax success!', data);
+            console.log('ajax post success!', data);
 
-  
-            //declare output as empty string
-            input = '';
-  
-            //jquery for each loop
-            $.each(data, function (index, value) {
-          
-
-              input += this.full_name;
-              input += this.email;
-              input += this.password;
-            });// END LOOP
-  
-            $('#input').html(input);
-     
-            //select status id element display in html
-          //   $('#results').html(result);
           }//sucess data call
         });//ajax function call
         
       }//cartPopup on click
+
+
+
+
+
+
+
+
+ function addEntry() 
+    {
+      
+        data = {};
+        const key1 = $('#date').attr('name');
+        const key2 = $('#entry_text').attr('name');
+
+        const value1 = $('#date').val();
+        const value2 = $('#entry_text').val();
+
+        data[key1] = value1;
+        data[key2] = value2;
+
+        //jquery ajax post function
+        $.ajax(
+        {
+          url: '/addEntry',
+          type: 'POST',
+          dataType: 'json', //will parse json into javascript object
+          data: data,
+  
+          //callback called when successful
+          success: (data) => {
+            console.log('ajax post success!', data);
+
+          }//sucess data call
+        });//ajax function call
+        
+      }//cartPopup on click
+
+
+
+
+
+
+
+
+      function login() {
+
+        data = {};
+        const key1 = $('#email').attr('name');
+        const key2 = $('#password').attr('name');
+
+        const value1 = $('#email').val();
+        const value2 = $('#password').val();
+
+
+        data[key1] = value1;
+        data[key2] = value2;
+
+        //jquery ajax post function
+        $.ajax(
+        {
+          url: '/login',
+          type: 'GET',
+          dataType: 'json', //will parse json into javascript object
+          data: data,
+  
+          //callback called when successful
+          success: (data) => {
+            console.log('ajax post success!', data);
+
+          }//sucess data call
+        });//ajax function call
+      }

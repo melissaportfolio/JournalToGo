@@ -22,11 +22,11 @@
     
     <form id="journal-form" action="#" method="POST">
         <label for="date">Date:</label><br>
-        <input type="text" name="date" placeholder="yyyy/mm/dd"><br>
+        <input id="date" type="text" name="date" placeholder="yyyy/mm/dd"><br>
         <label for="entry_text">Entry:</label><br>
-        <textarea name="entry_text" rows="10" cols="50" placeholder="What did you do today?"></textarea><br><br>
+        <textarea id="entry_text" name="entry_text" rows="10" cols="50" placeholder="What did you do today?"></textarea><br><br>
        
-        <button onclick="addEntry()" type="button">Done</button>
+        <button onclick="addEntry()" id="addEntry" type="button">Done</button>
         </form>
 
 
