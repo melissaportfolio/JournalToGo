@@ -23,3 +23,6 @@ VALUES('Today I bought shoes', '2021-03-10', 1);
 
 INSERT INTO journal (journal_entry, journal_entry_date, customer_id)
 VALUES('Today I worked on my homework and watched a dance competition.', '2021-03-13', 1);
+
+ALTER TABLE journal
+    ALTER COLUMN journal_entry_date TYPE TEXT;

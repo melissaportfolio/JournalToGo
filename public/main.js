@@ -135,7 +135,7 @@ function generateJournal()
 
 
 
- function addEntry() 
+ function addJournalEntry() 
     {
       
         data = {};
@@ -151,7 +151,7 @@ function generateJournal()
         //jquery ajax post function
         $.ajax(
         {
-          url: '/addEntry',
+          url: '/addJournalEntry',
           type: 'POST',
           dataType: 'json', //will parse json into javascript object
           data: data,

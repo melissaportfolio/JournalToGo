@@ -180,19 +180,19 @@ function addCustomerFromDataLayer(params, callback) {
 
 
 //ADD JOURNAL ENTRY
-app.post("/addEntry", addEntry);
-function addEntry(req, res) {
+app.post("/addJournalEntry", addJournalEntry);
+function addJournalEntry(req, res) {
     console.log("Posting data");
     // var id = req.query.id;
     //body is for post, query is for get
     
     const journal_entry_date = req.body.journal_entry_date;
     const journal_entry = req.body.journal_entry;
-    const params = [journal_entry_date, journal_entry];
+    const params = [journal_entry, journal_entry_date];
 
-    addEntryFromDataLayer(params, function (error, addJournalEntry) {
-        console.log("Back From the addEntryFromDataLayer:", addJournalEntry);
-        if (error || addJournalEntry == null) {
+    addEntryFromDataLayer(params, function (error, addEntry) {
+        console.log("Back From the addEntryFromDataLayer:", addEntry);
+        if (error || addEntry == null) {
             res.status(500).json({
                 success: false,
                 data: error
@@ -200,23 +200,23 @@ function addEntry(req, res) {
         } 
         else {
             // res.json(result);
-            res.status(200).json(addJournalEntry);
+            res.status(200).json(addEntry);
         }
     });
 }
 
 function addEntryFromDataLayer(params, callback) {
     console.log("addEntryFromDataLayer called with id");
-    var sql = "INSERT INTO journal (journal_entry, journal_entry_date) VALUES($1::text, $2::date)";
+    var sql = "INSERT INTO journal (journal_entry, journal_entry_date) VALUES($1::text, $2::text)";
     // var params = [id];
-    pool.query(sql, params, function (err, addJournalEntry) {
+    pool.query(sql, params, function (err, addEntry) {
         if (err) {
             console.log("error in database connection");
             console.log(err);
             callback(err, null);
         }
-        console.log("Found DB result:" + JSON.stringify(addJournalEntry));
-        callback(null, addJournalEntry);
+        console.log("Found DB result:" + JSON.stringify(addEntry));
+        callback(null, addEntry);
     });
 }
 
