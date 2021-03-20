@@ -143,7 +143,7 @@ function generateJournal()
         const key2 = $('#journal_entry').attr('name');
 
         const value1 = $('#journal_entry_date').val();
-        const value2 = $('#journal_entry').text();
+        const value2 = $('#journal_entry').val();
 
         data[key1] = value1;
         data[key2] = value2;
