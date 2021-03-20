@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const session = require('client-sessions');
+const session2 = require('express-session');
 
 require('dotenv').config();
 const {
@@ -185,13 +186,13 @@ function addEntry(req, res) {
     // var id = req.query.id;
     //body is for post, query is for get
     
-    const date = req.body.date;
-    const entry_text = req.body.entry_text;
-   
-    const params = [date, entry_text];
-    addEntryFromDataLayer(params, function (error, addEntry) {
-        console.log("Back From the addEntryFromDataLayer:", addEntry);
-        if (error || addEntry == null) {
+    const journal_entry_date = req.body.journal_entry_date;
+    const journal_entry = req.body.journal_entry;
+    const params = [journal_entry_date, journal_entry];
+
+    addEntryFromDataLayer(params, function (error, addJournalEntry) {
+        console.log("Back From the addEntryFromDataLayer:", addJournalEntry);
+        if (error || addJournalEntry == null) {
             res.status(500).json({
                 success: false,
                 data: error
@@ -199,23 +200,23 @@ function addEntry(req, res) {
         } 
         else {
             // res.json(result);
-            res.status(200).json(addEntry);
+            res.status(200).json(addJournalEntry);
         }
     });
 }
 
 function addEntryFromDataLayer(params, callback) {
     console.log("addEntryFromDataLayer called with id");
-    var sql = "INSERT INTO journal (date, entry_text) VALUES($1::date, $2::text)";
+    var sql = "INSERT INTO journal (journal_entry, journal_entry_date) VALUES($1::text, $2::date)";
     // var params = [id];
-    pool.query(sql, params, function (err, addEntry) {
+    pool.query(sql, params, function (err, addJournalEntry) {
         if (err) {
             console.log("error in database connection");
             console.log(err);
             callback(err, null);
         }
-        console.log("Found DB result:" + JSON.stringify(addEntry));
-        callback(null, addEntry);
+        console.log("Found DB result:" + JSON.stringify(addJournalEntry));
+        callback(null, addJournalEntry);
     });
 }
 
