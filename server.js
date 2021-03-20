@@ -207,7 +207,7 @@ function addEntry(req, res) {
 
 function addEntryFromDataLayer(params, callback) {
     console.log("addEntryFromDataLayer called with id");
-    var sql = "INSERT INTO journal (journal_entry, journal_entry_date) VALUES($1::text, $2::text)";
+    var sql = "INSERT INTO journal (journal_entry, journal_entry_date) VALUES($1::text, $2::date)";
     // var params = [id];
     pool.query(sql, params, function (err, addJournalEntry) {
         if (err) {
