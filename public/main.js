@@ -172,7 +172,7 @@ function generateJournal()
 
 
 
-      function login() {
+      function customerLogin() {
 
         data = {};
         const key1 = $('#email').attr('name');
@@ -188,7 +188,7 @@ function generateJournal()
         //jquery ajax post function
         $.ajax(
         {
-          url: '/login',
+          url: '/customerLogin',
           type: 'GET',
           dataType: 'json', //will parse json into javascript object
           data: data,

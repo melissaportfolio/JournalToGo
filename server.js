@@ -223,9 +223,13 @@ function addEntryFromDataLayer(params, callback) {
 
 
 
+
+
+
+
 //Login and display entries
-app.get("/login", login);
-function login(req, res) {
+app.get("/customerLogin", customerLogin);
+function customerLogin(req, res) {
     console.log("Getting data");
     // var id = req.query.id;
     loginFromDataLayer(function (error, result) {
