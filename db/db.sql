@@ -26,3 +26,5 @@ VALUES('Today I worked on my homework and watched a dance competition.', '2021-0
 
 ALTER TABLE journal
     ALTER COLUMN journal_entry_date TYPE TEXT;
+
+UPDATE journal SET customer_id = 1 WHERE journal_id = 4;
