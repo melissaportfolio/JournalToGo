@@ -60,8 +60,8 @@ app.use(express.urlencoded({extended:true}))//support url encoded bodies
 app.use(require('morgan')('dev'));
 app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", "ejs");
-app.use(logRequest);
-app.use(verifyLogin);
+// app.use(logRequest);
+// app.use(verifyLogin);
 
 
 
@@ -255,12 +255,6 @@ function addEntryFromDataLayer(params, callback) {
         callback(null, addEntry);
     });
 }
-
-
-
-
-//login
-
 
 
 
