@@ -169,34 +169,66 @@ function generateJournal()
 
 
 
-
-
-
       function customerLogin() {
+        const email = $("#email").val();
+        const password = $("#email").val();
 
-        data = {};
-        const key1 = $('#email').attr('name');
-        const key2 = $('#password').attr('name');
+        const params = {
+          email: email,
+          password: password
+        };
 
-        const value1 = $('#email').val();
-        const value2 = $('#password').val();
-
-
-        data[key1] = value1;
-        data[key2] = value2;
-
-        //jquery ajax post function
-        $.ajax(
-        {
-          url: '/customerLogin',
-          type: 'GET',
-          dataType: 'json', //will parse json into javascript object
-          data: data,
-  
-          //callback called when successful
-          success: (data) => {
-            console.log('ajax post success!', data);
-
-          }//sucess data call
-        });//ajax function call
+        $.post("/customerLogin", params, function(result) {
+          console.log('result: ', result.success);
+          if (result && result.success) {
+            $("#status").text("Successfully logged in.");
+            
+          } else {
+            $("#status").text("Error logging in.");
+          }
+        });
       }
+
+
+​
+function customerLogout() {
+  // console.log("inside javascript Logout");
+	$.post("/customerLogout", function(result) {
+		if (result && result.success) {
+			$("#status").text("Successfully logged out.");
+		} else {
+			$("#status").text("Error logging out.");
+		}
+	});
+}
+
+
+
+      // function customerLogin() {
+
+      //   data = {};
+      //   const key1 = $('#email').attr('name');
+      //   const key2 = $('#password').attr('name');
+
+      //   const value1 = $('#email').val();
+      //   const value2 = $('#password').val();
+
+
+      //   data[key1] = value1;
+      //   data[key2] = value2;
+
+      //   //jquery ajax post function
+      //   $.ajax(
+      //   {
+      //     url: '/customerLogin',
+      //     type: 'GET',
+      //     dataType: 'json', //will parse json into javascript object
+      //     data: data,
+  
+      //     //callback called when successful
+      //     success: (data) => {
+      //       console.log('ajax post success!', data);
+
+      //     }//sucess data call
+      //   });//ajax function call
+      // }
