@@ -246,6 +246,7 @@ function customerLogin(req, res) {
     console.log("Getting data");
     const email = req.body.email;
     const password = req.body.password;
+    // const customer_id = req.body.customer_id;
     const params = [email, password];
     // var id = req.query.id;
     loginFromDataLayer(params, function (error, result) {
@@ -266,8 +267,8 @@ function customerLogin(req, res) {
             // res.json(result);
             // res.status(200).json(result);
             console.log(JSON.stringify(result));
-            // req.session.user = result.rows[0].customer_id;
-            req.session.user = result.rows[0];
+            req.session.user = result.rows[0].customer_id;
+            // req.session.user = result.rows[0].email;
             console.log(req.session.user);
             //render page
             res.render('pages/entries');
