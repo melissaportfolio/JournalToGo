@@ -3,8 +3,8 @@ const app = express();
 const path = require('path');
 // const session = require('client-sessions');
 const session = require('express-session');
-const FileStore = require('session-file-store')(session);
-// const bcrypt = require('bcrypt');
+// const FileStore = require('session-file-store')(session);
+
 require('dotenv').config();
 const {
     Pool
@@ -18,26 +18,7 @@ const pool = new Pool({
 });
 
 
-//Middleware
-// var logRequest = function(req, res, next) {
-//     console.log("Received a request for: " + req.url);
-//     next();
-//   }
-  
-// var verifyLogin = function(req, res, next) {
-//     if (!req.session) {
-//       let jObj = {"success": "false", "message": "error message here"}
-//       res.json(jObj)
-//     } else {
-//       if(req.session.user)  {
-//         next()
-//       } else {
-//         let jObj = {"success": "false", "message": "error message here"}
-//         res.json(jObj)
-//       }
-//     }
-//   }
-  ​
+
 
 
 
@@ -48,7 +29,7 @@ app.use(session({
     secret: 'random_string_goes_here',
     saveUninitialized: true,
     resave: true,
-    store: new FileStore(),
+    // store: new FileStore(),
     duration: 30 * 60 * 1000,
     activeDuration: 5 * 60 * 1000,
   }));
@@ -258,86 +239,47 @@ function addEntryFromDataLayer(params, callback) {
 
 
 
-
-
-//Login and display entries
-​
-// app.post('/customerLogin', function(req, res, next) {
-​
-//   pool.query('SELECT email, password FROM customer WHERE email = $1', [req.body.email], (error, response) => {
-//     if (error) throw error;
-// ​
-//     console.log('response.row: ', response.rows[0])
-//     console.log('req email: ', req.body.email)
-//     console.log('req password: ', req.body.password)
-​
-//     if(req.body.email.trim() == response.rows[0].email.trim()
-//     && req.body.password.trim() == response.rows[0].password.trim()) {
-//       var myObj = { "success":"true" };
-//       var myObjString = JSON.stringify(myObj);
-//       req.session.user = req.body.email;
-//     }
-//     else {
-//       var myObj = { "success":"false" };
-//       var myObjString = JSON.stringify(myObj);
-//     }
-// ​
-//     console.log(myObjString);
-//     console.log("Session: ", req.session);
-// ​
-//     res.setHeader('Content-Type', 'application/json');
-//     res.end(JSON.stringify(myObj))
-//   });
-// });
-// ​
-
-
-
-
-//logout
-// app.post('/customerLogout', function(req, res, next) {
-//   console.log('inside server logout');
-//     if (req.session.user) {
-//         req.session.destroy();
-//         var myObj = { "success":"true" };
-//     }
-//     else {
-//         var myObj = { "success":"false" };
-//     }
-//     console.log("Session Logout: ", req.session);
-//     res.json(myObj); 
-    
-// })
-​
-
-
 ///This code below works, but it doesn't store user into in a session.
 
 app.get("/customerLogin", customerLogin);
 function customerLogin(req, res) {
     console.log("Getting data");
+    const email = req.body.email;
+    const password = req.body.password;
+    const params = [email, password];
     // var id = req.query.id;
-    loginFromDataLayer(function (error, result) {
+    loginFromDataLayer(params, function (error, result) {
         console.log("Back From the loginFromDataLayer:", result);
         if (error || result == null) {
             res.status(500).json({
                 success: false,
                 data: error
+                
             });
+            console.log("Error message");
+            res.render('pages/index', {error: "Please try logging in again."});
+
         } 
         else {
             // res.json(result);
-            res.status(200).json(result);
+            // res.status(200).json(result);
+            console.log(JSON.stringify(result));
+            req.session.user = result.rows[0].customer_id;
+            console.log(req.session.user);
+            //render page
+            res.render('pages/entries');
+
         }
     });
 }
 
-function loginFromDataLayer(callback) {
+function loginFromDataLayer(params, callback) {
     console.log("loginFromDataLayer called with id");
-    var sql = "SELECT journal_entry j FROM journal j JOIN customer c ON j.customer_id = c.customer_id WHERE j.customer_id = c.customer_id";
-    // var sql = "SELECT customer_id FROM customer WHERE customer_id = $1";
-    // var params = [id];
-    pool.query(sql, function (err, result) {
+    var sql = "SELECT customer_id FROM customer WHERE email = $1::text AND password = $2::text";
+    
+    
+    
+    pool.query(sql, params, function (err, result) {
         if (err) {
             console.log("error in database connection");
             console.log(err);
@@ -410,21 +352,3 @@ app.set("port", (process.env.PORT || 3000));
 app.listen(app.get("port"), function () {
     console.log("Now listening on port: ", app.get("port"));
 });
-
-
-// // var sql = "SELECT * FROM customer";
-
-// pool.query(sql, function(err, result) {
-//     // If an error occurred...
-//     if (err) {
-//         console.log("Error in query: ")
-//         console.log(err);
-//     }
-
-//     // Log this to the console for debugging purposes.
-//     console.log("Back from DB with result:");
-//     console.log(result);
-//     // console.log(result.rows);
-
-
-// }); 
