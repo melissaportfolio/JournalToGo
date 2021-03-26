@@ -264,7 +264,8 @@ function customerLogin(req, res) {
             // res.json(result);
             // res.status(200).json(result);
             console.log(JSON.stringify(result));
-            req.session.user = result.rows[0].customer_id;
+            // req.session.user = result.rows[0].customer_id;
+            req.session.user = result.rows[0];
             console.log(req.session.user);
             //render page
             res.render('pages/entries');
