@@ -253,11 +253,13 @@ function customerLogin(req, res) {
         if (error || result == null) {
             res.status(500).json({
                 success: false,
-                data: error
+                data: error,
+                message: 'Please try logging in again.'
                 
             });
             console.log("Error message");
-            res.render('pages/index', {error: "Please try logging in again."});
+            // const error = "Please try logging in again.";
+            res.render('pages/index', error = {message: message});
 
         } 
         else {
