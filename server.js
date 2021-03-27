@@ -5,6 +5,8 @@ const path = require('path');
 const session = require('express-session');
 // const FileStore = require('session-file-store')(session);
 
+
+
 require('dotenv').config();
 
 const {
@@ -29,12 +31,14 @@ app.use(session({
     duration: 30 * 60 * 1000,
     activeDuration: 5 * 60 * 1000,
   }));
+
 app.use(function printSession(req, res, next) {
     console.log('req.session', req.session);
     return next();
 });
 app.use(express.urlencoded({extended:true}))//support url encoded bodies
 app.use(require('morgan')('dev'));
+
 app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", "ejs");
 // app.use(logRequest);
@@ -247,22 +251,33 @@ function customerLogin(req, res) {
     const password = req.body.password;
     // const customer_id = req.body.customer_id;
     const params = [email, password];
+    req.session.loggedin = true;
+    req.session.email = email;
+    console.log(req.session.email);
+
+
     // var id = req.query.id;
     loginFromDataLayer(params, function (error, result) {
         console.log("Back From the loginFromDataLayer:", result);
+        
         if (error || result == null) {
             res.status(500).json({
                 success: false,
-                data: error
-
-            });
+                data: error,
+                message: 'There is an error in retreiving the result'
+            })}
+        if (result.rowCount > 0){
+            //Save session data here
+            req.session.user = result.rows[0].customer_id;
+            res.redirect('pages/entries');
+        }
             // console.log("Error message");
             // const error = "Please try logging in again.";
             // res.render('pages/index', error = {message: message});
-            res.render('pages/index');
+            // res.render('pages/index');
             // $("#errorMessage").text("Error logging in, please try again.");
 
-        } 
+        
         else {
             // res.json(result);
             // res.status(200).json(result);
@@ -271,17 +286,20 @@ function customerLogin(req, res) {
             // req.session.user = result.rows[0].email;
             // console.log(req.session.user);
             //render page
+            res.send("Incorrect email or password");
             res.render('pages/entries');
 
         }
+        // callback(null, result.rows);
+        // res.end();
     });
 }
 
 //this is coming back as undefined
 function loginFromDataLayer(params, callback) {
     console.log("loginFromDataLayer called with id");
-    // var sql = "SELECT customer_id FROM customer WHERE email = $1::text AND password = $2::text";
-    var sql = "SELECT customer_id FROM customer WHERE email = $1::text";
+    var sql = "SELECT customer_id FROM customer WHERE email = $1::text AND password = $2::text";
+    // var sql = "SELECT customer_id FROM customer";
     
     
     
@@ -290,6 +308,7 @@ function loginFromDataLayer(params, callback) {
             console.log("error in database connection");
             console.log(err);
             callback(err, null);
+            return;
         }
         // console.log("Found DB result:" + JSON.stringify(result.rows));
         console.log("Found DB result:" + JSON.stringify(result));
