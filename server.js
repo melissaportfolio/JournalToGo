@@ -6,6 +6,7 @@ const session = require('express-session');
 // const FileStore = require('session-file-store')(session);
 
 require('dotenv').config();
+
 const {
     Pool
 } = require('pg');
@@ -18,15 +19,10 @@ const pool = new Pool({
 });
 
 
-
-
-
-
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
     cookieName: 'session',
-    secret: 'random_string_goes_here',
+    secret: 'shhh...',
     saveUninitialized: true,
     resave: true,
     // store: new FileStore(),
@@ -243,7 +239,7 @@ function addEntryFromDataLayer(params, callback) {
 
 app.get("/customerLogin", customerLogin);
 function customerLogin(req, res) {
-    console.log("Getting data");
+    // console.log(req.session);
     const email = req.body.email;
     const password = req.body.password;
     // const customer_id = req.body.customer_id;
@@ -254,20 +250,22 @@ function customerLogin(req, res) {
         if (error || result == null) {
             res.status(500).json({
                 success: false,
-                data: error,
-                message: 'Please try logging in again.'
+                data: error
+                
                 
             });
-            console.log("Error message");
+            // console.log("Error message");
             // const error = "Please try logging in again.";
-            res.render('pages/index', error = {message: message});
+            // res.render('pages/index', error = {message: message});
+            res.render('pages/index');
+            // $("#errorMessage").text("Error logging in, please try again.");
 
         } 
         else {
             // res.json(result);
             // res.status(200).json(result);
             console.log(JSON.stringify(result));
-            req.session.user = result.rows[0].customer_id;
+            // req.session.user = result.rows[0].customer_id;
             // req.session.user = result.rows[0].email;
             console.log(req.session.user);
             //render page
@@ -277,9 +275,11 @@ function customerLogin(req, res) {
     });
 }
 
+//this is coming back as undefined
 function loginFromDataLayer(params, callback) {
     console.log("loginFromDataLayer called with id");
-    var sql = "SELECT customer_id FROM customer WHERE email = $1::text AND password = $2::text";
+    // var sql = "SELECT customer_id FROM customer WHERE email = $1::text AND password = $2::text";
+    var sql = "SELECT customer_id FROM customer";
     
     
     

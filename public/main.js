@@ -191,6 +191,7 @@ function generateJournal()
           //callback called when successful
           success: (data) => {
             console.log('ajax post success!', data);
+            
 
           }//sucess data call
         });//ajax function call
