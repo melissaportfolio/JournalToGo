@@ -235,9 +235,12 @@ function addEntryFromDataLayer(params, callback) {
 
 
 
-///This code below works, but it doesn't store user into in a session.
 
-app.get("/customerLogin", customerLogin);
+
+
+
+
+app.post("/customerLogin", customerLogin);
 function customerLogin(req, res) {
     // console.log(req.session);
     const email = req.body.email;
@@ -251,8 +254,7 @@ function customerLogin(req, res) {
             res.status(500).json({
                 success: false,
                 data: error
-                
-                
+
             });
             // console.log("Error message");
             // const error = "Please try logging in again.";
@@ -267,7 +269,7 @@ function customerLogin(req, res) {
             console.log(JSON.stringify(result));
             // req.session.user = result.rows[0].customer_id;
             // req.session.user = result.rows[0].email;
-            console.log(req.session.user);
+            // console.log(req.session.user);
             //render page
             res.render('pages/entries');
 
@@ -279,7 +281,7 @@ function customerLogin(req, res) {
 function loginFromDataLayer(params, callback) {
     console.log("loginFromDataLayer called with id");
     // var sql = "SELECT customer_id FROM customer WHERE email = $1::text AND password = $2::text";
-    var sql = "SELECT customer_id FROM customer";
+    var sql = "SELECT customer_id FROM customer WHERE email = $1::text";
     
     
     
@@ -289,8 +291,10 @@ function loginFromDataLayer(params, callback) {
             console.log(err);
             callback(err, null);
         }
-        console.log("Found DB result:" + JSON.stringify(result.rows));
-        callback(null, result.rows);
+        // console.log("Found DB result:" + JSON.stringify(result.rows));
+        console.log("Found DB result:" + JSON.stringify(result));
+        // callback(null, result.rows);
+        callback(null, result);
     });
 }
 

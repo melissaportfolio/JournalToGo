@@ -184,14 +184,14 @@ function generateJournal()
         $.ajax(
         {
           url: '/customerLogin',
-          type: 'GET',
+          type: 'POST',
           dataType: 'json', //will parse json into javascript object
           data: data,
   
           //callback called when successful
           success: (data) => {
             console.log('ajax post success!', data);
-            
+
 
           }//sucess data call
         });//ajax function call
