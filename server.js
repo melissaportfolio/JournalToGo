@@ -4,7 +4,7 @@ const path = require('path');
 // const session = require('client-sessions');
 const session = require('express-session');
 // const FileStore = require('session-file-store')(session);
-
+var sessInfo;
 
 
 require('dotenv').config();
@@ -59,6 +59,14 @@ app.get("/", function (req, res) {
 //index page
 app.get('/index', function (req, res) {
     // const request = req.query;
+    // if (req.session.loggedin = true) {
+    //     res.render('pages/entries');
+    // }
+    // else {
+    //     res.render('pages/index');
+    // }
+    sessInfo = req.session;
+    // console.log("this is sessioninfo start", sessInfo);
     res.render('pages/index');
 
 });
@@ -202,10 +210,10 @@ function addJournalEntry(req, res) {
     console.log("Posting data");
     // var id = req.query.id;
     //body is for post, query is for get
-    
+    const customer_id = req.session.user;
     const journal_entry_date = req.body.journal_entry_date;
     const journal_entry = req.body.journal_entry;
-    const params = [journal_entry, journal_entry_date];
+    const params = [journal_entry, journal_entry_date, customer_id];
 
     addEntryFromDataLayer(params, function (error, addEntry) {
         console.log("Back From the addEntryFromDataLayer:", addEntry);
@@ -222,11 +230,12 @@ function addJournalEntry(req, res) {
     });
 }
 
-function addEntryFromDataLayer(params, callback) {
+function addEntryFromDataLayer(customer_id, params, callback) {
     console.log("addEntryFromDataLayer called with id");
-    var sql = "INSERT INTO journal (journal_entry, journal_entry_date) VALUES($1::text, $2::text)";
+    console.log("this is customer id inside the data layer",customer_id, "this is after the customer id");
+    var sql = "INSERT INTO journal (journal_entry, journal_entry_date, customer_id) VALUES($1::text, $2::text, '"+customer_id+"')";
     // var params = [id];
-    pool.query(sql, params, function (err, addEntry) {
+    pool.query(sql, customer_id, params, function (err, addEntry) {
         if (err) {
             console.log("error in database connection");
             console.log(err);
@@ -243,7 +252,7 @@ function addEntryFromDataLayer(params, callback) {
 
 
 
-
+//Customer LOGIN
 app.post("/customerLogin", customerLogin);
 function customerLogin(req, res) {
     // console.log(req.session);
@@ -269,7 +278,10 @@ function customerLogin(req, res) {
         if (result.rowCount > 0){
             //Save session data here
             req.session.user = result.rows[0].customer_id;
-            res.redirect('pages/entries');
+            console.log(req.session.user, 'this is the user stored in the session');
+            // res.redirect('/getJournal');
+            res.redirect('/entries');
+            
         }
             // console.log("Error message");
             // const error = "Please try logging in again.";
@@ -286,8 +298,9 @@ function customerLogin(req, res) {
             // req.session.user = result.rows[0].email;
             // console.log(req.session.user);
             //render page
+            res.render('pages/index');
             res.send("Incorrect email or password");
-            res.render('pages/entries');
+            
 
         }
         // callback(null, result.rows);
@@ -316,6 +329,34 @@ function loginFromDataLayer(params, callback) {
         callback(null, result);
     });
 }
+
+
+
+
+
+
+
+
+
+
+//Customer LOGOUT
+app.post("/customerLogout", customerLogout);
+function customerLogout(req, res) {
+    console.log("This is the stored user:", req.session.user);
+    if (req.session.user) {
+        req.session.destroy();
+        console.log("inside the logout function on server page");
+        res.render("pages/index");
+    }
+    else {
+        
+        res.render("pages/index");
+    }
+    console.log("Session logout");
+}
+
+
+
 
 
 

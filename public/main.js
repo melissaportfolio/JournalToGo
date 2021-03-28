@@ -196,3 +196,14 @@ function generateJournal()
           }//sucess data call
         });//ajax function call
       }
+
+
+      function customerLogout() {
+        $.post("/customerLogout", function(result) {
+          if (result && result.success) {
+            $("#status").text("Successfully logged out.");
+          } else {
+            $("#status").text("Error logging out.");
+          }
+        });
+          }
