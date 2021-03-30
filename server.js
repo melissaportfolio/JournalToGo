@@ -213,9 +213,9 @@ function addJournalEntry(req, res) {
     const customer_id = req.session.user;
     const journal_entry_date = req.body.journal_entry_date;
     const journal_entry = req.body.journal_entry;
-    const params = [journal_entry, journal_entry_date, customer_id];
+    const params = [journal_entry, journal_entry_date];
 
-    addEntryFromDataLayer(params, function (error, addEntry) {
+    addEntryFromDataLayer(customer_id, params, function (error, addEntry) {
         console.log("Back From the addEntryFromDataLayer:", addEntry);
         if (error || addEntry == null) {
             res.status(500).json({
