@@ -356,6 +356,7 @@ function customerLogout(req, res) {
         res.render("pages/index");
     }
     console.log("Session logout");
+    console.log("this is the session user info", req.session.user);
 }
 
 
