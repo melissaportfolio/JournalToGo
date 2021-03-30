@@ -167,35 +167,35 @@ function generateJournal()
 
 
 
-      function customerLogin() {
+      // function customerLogin() {
 
-        data = {};
-        const key1 = $('#email').attr('name');
-        const key2 = $('#password').attr('name');
+      //   data = {};
+      //   const key1 = $('#email').attr('name');
+      //   const key2 = $('#password').attr('name');
 
-        const value1 = $('#email').val();
-        const value2 = $('#password').val();
+      //   const value1 = $('#email').val();
+      //   const value2 = $('#password').val();
 
 
-        data[key1] = value1;
-        data[key2] = value2;
+      //   data[key1] = value1;
+      //   data[key2] = value2;
 
-        //jquery ajax post function
-        $.ajax(
-        {
-          url: '/customerLogin',
-          type: 'POST',
-          dataType: 'json', //will parse json into javascript object
-          data: data,
+      //   //jquery ajax post function
+      //   $.ajax(
+      //   {
+      //     url: '/customerLogin',
+      //     type: 'POST',
+      //     dataType: 'json', //will parse json into javascript object
+      //     data: data,
   
-          //callback called when successful
-          success: (data) => {
-            console.log('ajax post success!', data);
+      //     //callback called when successful
+      //     success: (data) => {
+      //       console.log('ajax post success!', data);
 
 
-          }//sucess data call
-        });//ajax function call
-      }
+      //     }//sucess data call
+      //   });//ajax function call
+      // }
 
 
       function customerLogout() {
