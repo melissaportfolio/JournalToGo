@@ -82,7 +82,10 @@ app.get('/register', function (req, res) {
 // entries page
 app.get('/entries', function (req, res) {
     // const request = req.query;
-    res.render('pages/entries');
+    
+        res.render('pages/entries');
+  
+    
    
 });
 
@@ -373,17 +376,27 @@ function customerLogout(req, res) {
 app.get("/getJournal", getJournal);
 function getJournal(req, res) {
     console.log("Getting data");
+    
+       
+   
     const user = req.session.user;
+    // if (req.session.loggedin = false){
+    //     $('#loginMessage').html("Please login", loginMessage);
+    // }
     // var id = req.query.id;
+   
     getJournalFromDataLayer(user, function (error, result) {
         console.log("Back From the getJournalFromDataLayer:", result);
         if (error || result == null) {
+            // document.getElementById("loginMessage").innerHTML = "Please login to view this page.";
             res.status(500).json({
                 success: false,
                 data: error
             });
         } 
         else {
+        //     res.redirect('pages/index');
+        // $('#loginMessage').html("Please login", loginMessage);
             // res.json(result);
             res.status(200).json(result);
             // res.render('pages/entries');
@@ -391,9 +404,11 @@ function getJournal(req, res) {
     });
 }
 
+
 function getJournalFromDataLayer(user, callback) {
     console.log("getJournalFromDataLayer called with id");
     console.log('this is the user const: ', user);
+   
     var sql = "SELECT journal_id, journal_entry, journal_entry_date, customer_id FROM journal WHERE customer_id = '"+user+"'";
     // var params = [id];
     pool.query(sql, function (err, result) {
@@ -401,6 +416,8 @@ function getJournalFromDataLayer(user, callback) {
             console.log("error in database connection");
             console.log(err);
             callback(err, null);
+            // $('#loginMessage').html("Please login", loginMessage);
+            
         }
         console.log("Found DB result:" + JSON.stringify(result.rows));
         callback(null, result.rows);
