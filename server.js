@@ -230,20 +230,23 @@ function addJournalEntry(req, res) {
     });
 }
 
-function addEntryFromDataLayer(customer_id, params, callback) {
+async function addEntryFromDataLayer(customer_id, params, callback) {
     console.log("addEntryFromDataLayer called with id");
     console.log("this is customer id inside the data layer",customer_id, "this is after the customer id");
-    var sql = "INSERT INTO journal (journal_entry, journal_entry_date, customer_id) VALUES($1::text, $2::text, '"+customer_id+"')";
+    var sql = "INSERT INTO journal (journal_entry, journal_entry_date, customer_id) VALUES('"+params[0]+"', '"+params[1]+"', '"+customer_id+"')";
     // var params = [id];
-    pool.query(sql, customer_id, params, function (err, addEntry) {
-        if (err) {
-            console.log("error in database connection");
-            console.log(err);
-            callback(err, null);
-        }
-        console.log("Found DB result:" + JSON.stringify(addEntry));
-        callback(null, addEntry);
-    });
+    const client = await pool.connect();
+    const result = await client.query(sql);
+    console.log(result);
+    // pool.query(sql, customer_id, params, function (err, addEntry) {
+    //     if (err) {
+    //         console.log("error in database connection");
+    //         console.log(err);
+    //         callback(err, null);
+    //     }
+    //     console.log("Found DB result:" + JSON.stringify(addEntry));
+    //     callback(null, addEntry);
+    // });
 }
 
 
@@ -278,7 +281,7 @@ function customerLogin(req, res) {
         if (result.rowCount > 0){
             //Save session data here
             req.session.user = result.rows[0].customer_id;
-            console.log(req.session.user, 'this is the user stored in the session');
+            console.log(req.session.user, 'this is the user number');
             // res.redirect('/getJournal');
             res.redirect('/entries');
             
