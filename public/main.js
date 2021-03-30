@@ -93,6 +93,17 @@ function generateJournal()
 
 
 
+
+
+
+
+
+
+
+
+
+
+
     function addCustomer() 
     {
         // console.log('checkout run');
@@ -198,12 +209,12 @@ function generateJournal()
       // }
 
 
-      function customerLogout() {
-        $.post("/customerLogout", function(result) {
-          if (result && result.success) {
-            $("#status").text("Successfully logged out.");
-          } else {
-            $("#status").text("Error logging out.");
-          }
-        });
-          }
+      // function customerLogout() {
+      //   $.post("/customerLogout", function(result) {
+      //     if (result && result.success) {
+      //       $("#status").text("Successfully logged out.");
+      //     } else {
+      //       $("#status").text("Error logging out.");
+      //     }
+      //   });
+      //     }

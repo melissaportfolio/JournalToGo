@@ -372,8 +372,9 @@ function customerLogout(req, res) {
 app.get("/getJournal", getJournal);
 function getJournal(req, res) {
     console.log("Getting data");
+    const user = req.session.user;
     // var id = req.query.id;
-    getJournalFromDataLayer(function (error, result) {
+    getJournalFromDataLayer(user, function (error, result) {
         console.log("Back From the getJournalFromDataLayer:", result);
         if (error || result == null) {
             res.status(500).json({
@@ -384,13 +385,15 @@ function getJournal(req, res) {
         else {
             // res.json(result);
             res.status(200).json(result);
+            // res.render('pages/entries');
         }
     });
 }
 
-function getJournalFromDataLayer(callback) {
+function getJournalFromDataLayer(user, callback) {
     console.log("getJournalFromDataLayer called with id");
-    var sql = "SELECT * FROM journal";
+    console.log('this is the user const: ', user);
+    var sql = "SELECT journal_id, journal_entry, journal_entry_date, customer_id FROM journal WHERE customer_id = '"+user+"'";
     // var params = [id];
     pool.query(sql, function (err, result) {
         if (err) {
