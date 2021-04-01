@@ -28,3 +28,5 @@ ALTER TABLE journal
     ALTER COLUMN journal_entry_date TYPE TEXT;
 
 UPDATE journal SET customer_id = 1 WHERE journal_id = 4;
+
+DELETE FROM journal WHERE journal_id = 6;

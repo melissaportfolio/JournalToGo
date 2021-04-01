@@ -96,6 +96,7 @@ button:hover {
     color: white;
     border-radius: 5px 5px 5px 5px;
     padding: 10px;
+    margin-left: 20px;
 }
 #button-2:hover {
     color: #35CE8D;
@@ -188,3 +189,24 @@ td {
     padding: 10px;
     
 }
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  
+  li {
+    float: right;
+  }
+  
+  li a {
+    display: block;
+    padding: 10px;
+    margin-right: 20px;
+    /* background-color: #dddddd; */
+    color: white;
+    font-family: 'Alice', serif;
+    font-size: 15px;
+  }

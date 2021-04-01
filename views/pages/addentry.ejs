@@ -15,16 +15,20 @@
    
 </head>
 <body>
+    <form id="logout-form" action="/customerLogout" method="POST">
+        <button  id="journalDisplay" type="submit">Logout</button><br><br>
+    </form> 
+    <nav>
+        <ul>
+            <li><a href="/addentry">Add Journal Entry</a></li>
+            <li><a href="/entries">View Journal</a></li>
+            <li><a href="/index">Home</a></li>
+        </ul>
+      </nav>
     <div class="box1">
     <h1>Journal To Go</h1>
     <hr>
-    <nav>
-        <ul>
-            <li><a href="/index">Home</a></li>
-            <li><a href="/entries">View Journal</a></li>
-            <li><a href="/addentry">Add Journal Entry</a></li>
-        </ul>
-      </nav>
+
     <h2>New Journal Entry</h2>
     
     <form id="journal-form">
@@ -33,7 +37,7 @@
         <label for="journal_entry">Entry:</label><br>
         <textarea id="journal_entry" name="journal_entry" rows="10" cols="50" placeholder="What did you do today?"></textarea><br><br>
        
-        <button onclick="addJournalEntry()" id="addEntry" type="button">Done</button><br><br><br>
+        <button onclick="addJournalEntry()" id="addEntry" type="button">Done</button>
         <a id="button-2" href="/entries">View All Entries</a><br><br><br>
         </form>
        
