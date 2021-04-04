@@ -210,3 +210,39 @@ ul {
     font-family: 'Alice', serif;
     font-size: 15px;
   }
+
+  #messageOutput {
+    text-align: center;
+    color: white;
+    font-family: 'Alice', serif;
+    font-size: 15px;
+  }
+
+  #messageOutput a {
+    text-align: center;
+    color: #6EC2F5;
+    font-family: 'Alice', serif;
+    font-size: 15px;
+  }  
+
+  #messageOutput a:hover {
+    color: #00304e;
+  }  
+
+  #messageOutput2 {
+    text-align: center;
+    color: white;
+    font-family: 'Alice', serif;
+    font-size: 15px;
+  }
+
+  #messageOutput2 a {
+    text-align: center;
+    color: white;
+    font-family: 'Alice', serif;
+    font-size: 15px;
+  }  
+
+  #messageOutput2 a:hover {
+    color: #00304e;
+  } 

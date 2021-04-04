@@ -134,6 +134,13 @@ function generateJournal()
           success: (data) => {
             console.log('ajax post success!', data);
 
+            //output message
+            messageOutput = '';
+            messageOutput += "<p>Thank you for registering!</p>";
+            messageOutput += "<p>Please<a href='/index'>login</a>to continue</p>";
+
+            $('#messageOutput').html(messageOutput);
+
           }//sucess data call
         });//ajax function call
         
@@ -170,6 +177,13 @@ function generateJournal()
           //callback called when successful
           success: (data) => {
             console.log('ajax post success!', data);
+
+          //output message
+          messageOutput2 = '';
+          messageOutput2 += "<p>Entry submitted!</p>";
+          messageOutput2 += "<p><a href='/entries'>View all entries</a></p>";
+            
+          $('#messageOutput2').html(messageOutput2);
 
           }//sucess data call
         });//ajax function call

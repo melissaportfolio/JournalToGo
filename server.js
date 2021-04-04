@@ -8,6 +8,7 @@ var sessInfo;
 const expressSanitizer = require('express-sanitizer');
 // const expressValidator = require('express-validator');
 const sanitizer = require('sanitize')();
+const format = require('pg-format');
 
 
 require('dotenv').config();
@@ -244,7 +245,7 @@ function addJournalEntry(req, res) {
 async function addEntryFromDataLayer(customer_id, params, callback) {
     console.log("addEntryFromDataLayer called with id");
     console.log("this is customer id inside the data layer",customer_id, "this is after the customer id");
-    var sql = "INSERT INTO journal (journal_entry, journal_entry_date, customer_id) VALUES('"+params[0]+"', '"+params[1]+"', '"+customer_id+"')";
+    var sql = format.literal("INSERT INTO journal (journal_entry, journal_entry_date, customer_id) VALUES('"+params[0]+"', '"+params[1]+"', '"+customer_id+"')");
     // var sql = "INSERT INTO journal (journal_entry, journal_entry_date, customer_id) VALUES($1::text, $2::text, '"+customer_id+"')";
     // var params = [id];
     const client = await pool.connect();
