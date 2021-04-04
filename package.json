@@ -12,9 +12,12 @@
         "ejs": "^3.1.6",
         "env": "0.0.2",
         "express": "^4.17.1",
+        "express-sanitizer": "^1.0.5",
         "express-session": "^1.17.1",
+        "express-validator": "^6.10.0",
         "morgan": "^1.10.0",
         "pg": "^8.5.1",
+        "sanitize": "^2.1.0",
         "session-file-store": "^1.5.0"
     },
     "devDependencies": {

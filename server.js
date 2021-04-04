@@ -5,6 +5,9 @@ const path = require('path');
 const session = require('express-session');
 // const FileStore = require('session-file-store')(session);
 var sessInfo;
+const expressSanitizer = require('express-sanitizer');
+// const expressValidator = require('express-validator');
+const sanitizer = require('sanitize')();
 
 
 require('dotenv').config();
@@ -12,6 +15,7 @@ require('dotenv').config();
 const {
     Pool
 } = require('pg');
+const { body } = require('express-validator');
 const connectionString = process.env.DATABASE_URL;
 const pool = new Pool({
     connectionString: connectionString,
@@ -38,6 +42,9 @@ app.use(function printSession(req, res, next) {
 });
 app.use(express.urlencoded({extended:true}))//support url encoded bodies
 app.use(require('morgan')('dev'));
+app.use(express.json());
+app.use(expressSanitizer());
+// app.use(expressValidator());
 
 app.set('views', path.join(__dirname, 'views'));
 app.set("view engine", "ejs");
@@ -163,9 +170,10 @@ function addCustomer(req, res) {
     console.log("Posting data");
     // var id = req.query.id;
     //body is for post, query is for get
+    // body('email').isEmail();
     
     const full_name = req.body.full_name;
-    const email = req.body.email;
+    const email = req.sanitize(req.body.email);
     const password = req.body.password;
     const params = [full_name, email, password];
     addCustomerFromDataLayer(params, function (error, input) {
@@ -237,6 +245,7 @@ async function addEntryFromDataLayer(customer_id, params, callback) {
     console.log("addEntryFromDataLayer called with id");
     console.log("this is customer id inside the data layer",customer_id, "this is after the customer id");
     var sql = "INSERT INTO journal (journal_entry, journal_entry_date, customer_id) VALUES('"+params[0]+"', '"+params[1]+"', '"+customer_id+"')";
+    // var sql = "INSERT INTO journal (journal_entry, journal_entry_date, customer_id) VALUES($1::text, $2::text, '"+customer_id+"')";
     // var params = [id];
     const client = await pool.connect();
     const result = await client.query(sql);
