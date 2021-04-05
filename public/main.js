@@ -65,15 +65,15 @@ function generateJournal()
           // outputJournal += "<th>Journal ID</th>";
           outputJournal += "<th>Journal Entry</th>";
           outputJournal += "<th>Journal Entry Date</th>";
-          // outputJournal += "<th>Customer ID</th>";
+          outputJournal += "<th>Customer ID</th>";
           outputJournal += "</tr>";
           //jquery for each loop
           $.each(data, function (index, value) {
 
             // outputJournal += "<tr><td>"+ this.journal_id +"</td>";
             outputJournal += "<tr><td>"+ this.journal_entry + "</td>";
-            outputJournal += "<td>" + this.journal_entry_date + "</td></tr>";
-            // outputJournal += "<td>" + this.customer_id + "</td></tr>";
+            outputJournal += "<td>" + this.journal_entry_date + "</td>";
+            outputJournal += "<td>" + this.customer_id + "</td></tr>";
             
           });// END LOOP
           outputJournal += "</table>";
@@ -179,11 +179,11 @@ function generateJournal()
             console.log('ajax post success!', data);
 
           //output message
-          messageOutput2 = '';
-          messageOutput2 += "<p>Entry submitted!</p>";
-          messageOutput2 += "<p><a href='/entries'>View all entries</a></p>";
+          entryOutput = '';
+          entryOutput += "<p>Entry submitted!</p>";
+          entryOutput += "<p>View all <a href='/entries'>entries</a></p>";
             
-          $('#messageOutput2').html(messageOutput2);
+          $('#entryOutput').html(entryOutput);
 
           }//sucess data call
         });//ajax function call
