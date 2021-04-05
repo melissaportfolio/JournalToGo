@@ -110,10 +110,14 @@ button:hover {
 }
 
 #journal-form {
-    /* text-align: center; */
+    text-align: center;
     font-family: 'Alice', serif;
     padding: 20px;
     background-color: #6EC2F5;
+}
+
+#logout-form {
+    padding: 10px;
 }
 
 footer {

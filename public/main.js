@@ -62,18 +62,18 @@ function generateJournal()
           outputJournal = '';
           outputJournal += "<table class='journal-display'>";
           outputJournal += "<tr>";
-          outputJournal += "<th>Journal ID</th>";
+          // outputJournal += "<th>Journal ID</th>";
           outputJournal += "<th>Journal Entry</th>";
           outputJournal += "<th>Journal Entry Date</th>";
-          outputJournal += "<th>Customer ID</th>";
+          // outputJournal += "<th>Customer ID</th>";
           outputJournal += "</tr>";
           //jquery for each loop
           $.each(data, function (index, value) {
 
-            outputJournal += "<tr><td>"+ this.journal_id +"</td>";
-            outputJournal += "<td>"+ this.journal_entry + "</td>";
-            outputJournal += "<td>" + this.journal_entry_date + "</td>";
-            outputJournal += "<td>" + this.customer_id + "</td></tr>";
+            // outputJournal += "<tr><td>"+ this.journal_id +"</td>";
+            outputJournal += "<tr><td>"+ this.journal_entry + "</td>";
+            outputJournal += "<td>" + this.journal_entry_date + "</td></tr>";
+            // outputJournal += "<td>" + this.customer_id + "</td></tr>";
             
           });// END LOOP
           outputJournal += "</table>";
